@@ -1,0 +1,21 @@
+# EHR / FHIR Tool Suites for Medical LLM Agents
+
+## What open-source or vendor tool suites expose EHR/FHIR actions to LLM agents, beyond the MedAgentBench/FHIR-AgentBench benchmark environments already covered?
+
+### Takeaway
+A distinct engineering layer has emerged around wrapping FHIR (the HL7 standard for healthcare data interchange) as agent-callable tools — separate from, and upstream of, the benchmark environments (MedAgentBench, FHIR-AgentBench, PhysicianBench) already detailed in the companion report's `clinical_agent_benchmarks.md`. This note catalogs the tool-suite layer itself.
+
+### Cited Findings
+- **[HealthChain](https://github.com/topics/healthcare-ai)** — a Python SDK for healthcare AI offering typed, validated FHIR tools for agents, real-time EHR connectivity, and production deployment support (as opposed to the research-benchmark virtual EHRs in MedAgentBench/FHIR-AgentBench, which are not intended for production use).
+- **MCP-FHIR framework** ("Enhancing Clinical Decision Support and EHR Insights through LLMs and the Model Context Protocol," [arXiv:2506.13800](https://arxiv.org/pdf/2506.13800)) — an open-source MCP server wrapping FHIR resources for clinical decision support and EHR-insight tasks, giving any MCP-compatible agent (not just a bespoke benchmark harness) structured FHIR read/write tools.
+- **[HAPI FHIR](https://hapifhir.io/)** — the standard open-source Java FHIR server implementation that most of the above wrap or interoperate with; not itself agent-specific, but the de facto reference server for building any FHIR-tool integration.
+- **Anthropic's FHIR-development and prior-authorization Agent Skills** ([anthropics/healthcare on GitHub](https://github.com/anthropics/healthcare); [Anthropic announcement](https://www.anthropic.com/news/healthcare-life-sciences)) — official Claude Agent Skills: the FHIR-development skill helps developers connect systems faster/with fewer errors; the prior-authorization skill is a customizable template for cross-referencing coverage requirements, clinical guidelines, patient records, and appeal documents to speed prior-authorization requests.
+- **Claude for Healthcare connectors** (same Anthropic announcement) — managed connectors to the CMS (Centers for Medicare & Medicaid Services) Coverage Database, ICD-10, and the National Provider Identifier (NPI) Registry, shipped under a HIPAA-ready platform umbrella (per [Help Net Security coverage](https://www.helpnetsecurity.com/2026/01/12/claude-for-healthcare-data-security-oversight/)).
+- **Claude for Life Sciences connectors** (same announcement) — Medidata, ClinicalTrials.gov, bioRxiv/medRxiv, Open Targets, and ChEMBL, aimed at research/trials/regulatory-operations use cases rather than point-of-care EHR actions.
+- Per a secondary report ([InfoQ](https://www.infoq.com/news/2026/01/openai-anthropic-healthcare/); [blog.stephenturner.us](https://blog.stephenturner.us/p/openai-anthropic-chatgpt-claude-health-life-sciences)), OpenAI announced analogous life-sciences/healthcare connectors around the same period — not independently detailed in this pass; worth a direct follow-up search if a non-Anthropic comparator is needed for a paper.
+
+### Inferences
+- The EHR/FHIR tool-suite landscape bifurcates into (a) research/benchmark virtual EHRs built for evaluation (MedAgentBench, FHIR-AgentBench, PhysicianBench — already in the companion report) and (b) production-oriented SDKs/connectors (HealthChain, MCP-FHIR, Anthropic's connectors) built for deployment. No paper located evaluates a production connector (e.g., Anthropic's FHIR skill or HealthChain) against the benchmark success-rate numbers already reported for MedAgentBench (~70% task success) or FHIR-AgentBench (~0.5 answer correctness) — i.e., it is unknown whether the production tooling layer actually closes any of the documented accuracy gap or merely standardizes the interface while leaving the underlying tool-selection/sequencing difficulty unchanged.
+
+### Gaps
+- Vendor connector capabilities (Anthropic, and the OpenAI analog) are documented only through announcement/press coverage in this pass, not through direct technical specs or independent evaluation — treat capability claims here as vendor-sourced, not independently verified.
